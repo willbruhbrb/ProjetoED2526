@@ -25,6 +25,7 @@ typedef struct{
 }Cliente;
 
 typedef struct{
+    //lista ligada
     Cliente *Cliente;
     int Total_Clientes;
     struct FilaCliente *proximo;
@@ -39,12 +40,13 @@ typedef struct{
 }Produto, *PTR_Produto;
 
 typedef struct{
+    //pode-se utilizar array dinâmico com base no valor de N_EMPREGADOS
     char *Nome[40];//isto de perferência faz-se com memória dinâmica por isso é que começa com 39 espaços livres
     //não sei que caracteristicas colocar a mais que sejam uteis e façam sentido neste contexto
 }Empregado;
 
 typedef struct{
-    int NumeroCaixa;
+    //este até pode ser estático com o valor N_CAIXAS
     FilaCliente *Fila;
     Empregado *Empregado_Caixa;
     int Estado;//0=fechada, 1=aberta, 2=ocupada
