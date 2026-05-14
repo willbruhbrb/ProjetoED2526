@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "structs.h"
-#include "functions.h"
+#include "functions_main.h"
 
 int main(){
     Sistema sis;

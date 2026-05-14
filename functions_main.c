@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "structs.h"
-#include "functions.h"
+#include "functions_main.h"
 
 //vamos fazer arvore binária para clientes para acesso eficiente
 //empregados utilizam listas ligadas
@@ -41,30 +41,30 @@ Sistema Carregar_Sistema() {
     FILE *f = fopen("funcionarios.txt", "r");
     if (f) {
         char linha[100];
-        while (fgets(linha, sizeof(linha), f)) {
+        while (fgets(linha, sizeof(linha), f) && sis.Num_Empregados < sis.Capacidade_Empregados) {
             Empregado e;
             if (sscanf(linha, "%d,%39[^\n]", &e.Id, e.Nome) == 2) {
-                sis.empregados = inserir_empregado(sis.empregados, e);
+                sis.Sis_Empregados[sis.Num_Empregados++] = e;
             }
         }
         fclose(f);
     }
-    // Carregar clientes (simplificado, assumir formato id,nome,idade)
+    // Carregar clientes
     f = fopen("clientes.txt", "r");
     if (f) {
         char linha[100];
-        while (fgets(linha, sizeof(linha), f)) {
+        while (fgets(linha, sizeof(linha), f) && sis.Num_Clientes < sis.Capacidade_Clientes) {
             Cliente c;
-            c.produtos = NULL; // simplificado
+            c.Produtos = NULL;
             c.Total_Produtos = 0;
+            c.Capacidade_Produtos = 0;
             c.Tempo_Atendimento = 0;
             if (sscanf(linha, "%d,%39[^,],%d", &c.Id, c.Nome, &c.Idade) == 3) {
-                sis.raiz_clientes = inserir_cliente(sis.raiz_clientes, c);
+                sis.Sis_clientes[sis.Num_Clientes++] = c;
             }
         }
         fclose(f);
     }
-    // Nota: Carregar produtos e caixas pode ser adicionado posteriormente
     return sis;
 }
 
@@ -73,29 +73,70 @@ void Guardar_Dados(Sistema sis) {
     // Guardar empregados
     FILE *f = fopen("funcionarios.txt", "w");
     if (f) {
-        ListaEmpregados *atual = sis.empregados;
-        while (atual != NULL) {
-            fprintf(f, "%d,%s\n", atual->empregado.Id, atual->empregado.Nome);
-            atual = atual->proximo;
+        for (int i = 0; i < sis.Num_Empregados; i++) {
+            fprintf(f, "%d,%s\n", sis.Sis_Empregados[i].Id, sis.Sis_Empregados[i].Nome);
         }
         fclose(f);
     }
-    // Guardar clientes (in-order traversal)
+    // Guardar clientes
     f = fopen("clientes.txt", "w");
     if (f) {
-        // Nota: Para guardar em ordem, implementar função auxiliar
-        // Por simplicidade, não implementado completamente
+        for (int i = 0; i < sis.Num_Clientes; i++) {
+            fprintf(f, "%d,%s,%d\n", sis.Sis_clientes[i].Id, sis.Sis_clientes[i].Nome, sis.Sis_clientes[i].Idade);
+        }
         fclose(f);
     }
-    // Nota: Guardar produtos e caixas pode ser adicionado
 }
 
 // Termina o sistema, guardando dados e libertando memória
 void Terminar_Sistema(Sistema sis) {
     Guardar_Dados(sis);
-    liberar_arvore(sis.raiz_clientes);
-    liberar_lista_empregados(sis.empregados);
-    // Liberar outras listas se necessário
+    free(sis.Sis_clientes);
+    free(sis.Sis_Empregados);
+    free(sis.Sis_Produtos);
+    free(sis.Sis_Caixas);
     printf("Sistema terminado.\n");
     exit(0);
+}
+
+// Cria um novo sistema vazio
+Sistema Criar_Sistema() {
+    Sistema sis;
+    strcpy(sis.Nome_Programa, "Sistema de Atendimento");
+    
+    //criar clientes
+    sis.Sis_clientes = malloc(CAPACIDADE_INICIAL_CLIENTE * sizeof(Cliente));
+    sis.Num_Clientes = 0;
+    sis.Capacidade_Clientes = CAPACIDADE_INICIAL_CLIENTE;
+    
+    //criar empregados
+    sis.Sis_Empregados = malloc(CAPACIDADE_INICIAL_EMPREGADOS * sizeof(Empregado));
+    sis.Num_Empregados = 0;
+    sis.Capacidade_Empregados = CAPACIDADE_INICIAL_EMPREGADOS;
+    
+
+    //criar produtos
+    sis.Sis_Produtos = malloc(CAPACIDADE_INICIAL_PRODUTOS * sizeof(Produto));
+    sis.N_Produtos = 0;
+    sis.Capacidade_Produtos = CAPACIDADE_INICIAL_PRODUTOS;
+    
+    //criar caixas
+    sis.Sis_Caixas = malloc(N_CAIXAS * sizeof(Caixa));
+    sis.Num_Caixas = 0;
+    
+    return sis;
+}
+
+void Ver_Clientes(Sistema sis) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF); // Limpar buffer
+    
+}
+
+void Adicionar_Empregado(Sistema *sis) {
+    //por fazer
+}
+
+void Ver_Empregados(Sistema sis) {
+    //por fazer
 }
