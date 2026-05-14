@@ -12,9 +12,9 @@
 #define PRECO_MIN_PRODUTO 0.01f
 #define PRECO_MAX_PRODUTO MAX_PRECO
 
-#define INITIAL_CLIENTES_CAPACITY 32
-#define INITIAL_EMPREGADOS_CAPACITY 16
-#define INITIAL_PRODUTOS_CAPACITY 128
+#define CAPACIDADE_INICIAL_CLIENTE 32
+#define CAPACIDADE_INICIAL_EMPREGADOS 16
+#define CAPACIDADE_INICIAL_PRODUTOS 128
 
 typedef struct Produto {
     int Id_Produto;
@@ -27,9 +27,9 @@ typedef struct Cliente {
     char Nome[40];
     int Idade;
 
-    Produto *Produtos;// lista dinâmica de produtos desse cliente
-    int Total_Produtos;// número de produtos atuais do cliente
-    int Capacidade_Produtos;// capacidade alocada para produtos do cliente
+    Produto *Produtos;//lista dinâmica de produtos desse cliente
+    int Total_Produtos;
+    int Capacidade_Produtos;
 
     int Tempo_Atendimento;
 } Cliente;
@@ -46,31 +46,31 @@ typedef struct Empregado {
 
 typedef struct Caixa {
     int NumeroCaixa;
-    FilaCliente *inicio;// início da fila de clientes na caixa
-    FilaCliente *fim;// fim da fila para inserções rápidas
+    FilaCliente *inicio;//início da fila de clientes na caixa
+    FilaCliente *fim;//fim da fila
     int Tamanho_Fila;
     int Tempo_Total_Fila;
-    Empregado *Empregado_Caixa;// empregado atualmente atribuído à caixa
-    int Estado;// 0=fechada, 1=aberta, 2=ocupada
+    Empregado *Empregado_Caixa;
+    int Estado;//0=fechada, 1=aberta, 2=ocupada
 } Caixa;
 
 typedef struct Sistema {
     char Nome_Programa[40];
 
-    Cliente *Sis_clientes;// array dinâmico de clientes
-    int Num_Clientes;// número atual de clientes
-    int Capacidade_Clientes;// capacidade alocada para o array de clientes
+    Cliente *Sis_clientes;//array dinâmico de clientes
+    int Num_Clientes;
+    int Capacidade_Clientes;
 
-    Empregado *Sis_Empregados;// array dinâmico de empregados
-    int Num_Empregados;// número atual de empregados
-    int Capacidade_Empregados;// capacidade alocada para o array de empregados
+    Empregado *Sis_Empregados;//array dinâmico de empregados
+    int Num_Empregados;
+    int Capacidade_Empregados;
 
-    Produto *Sis_Produtos;// array dinâmico de produtos
-    int N_Produtos;// número atual de produtos
-    int Capacidade_Produtos;// capacidade alocada para o array de produtos
+    Produto *Sis_Produtos;//array dinâmico de produtos
+    int N_Produtos;
+    int Capacidade_Produtos;
 
-    Caixa *Sis_Caixas;// array de caixas (pode ser pequeno e fixo)
-    int Num_Caixas;// número de caixas em uso
+    Caixa *Sis_Caixas;//array de caixas (pode ser pequeno e fixo)
+    int Num_Caixas;
 } Sistema;
 
 #endif
