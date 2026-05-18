@@ -12,9 +12,7 @@
 #define PRECO_MIN_PRODUTO 0.01f
 #define PRECO_MAX_PRODUTO MAX_PRECO
 
-#define CAPACIDADE_INICIAL_CLIENTE 32
-#define CAPACIDADE_INICIAL_EMPREGADOS 16
-#define CAPACIDADE_INICIAL_PRODUTOS 128
+#define TAMANHO_TABELA_PRODUTOS 64//tamanho inicial da hash table de produtos por cliente
 
 typedef struct Produto {
     int Id_Produto;
@@ -22,17 +20,28 @@ typedef struct Produto {
     char Tipo[20];
 } Produto;
 
+typedef struct NóHashProduto {
+    Produto dados;
+    struct NóHashProduto *proximo;//para encadeamento em caso de colisão
+} NóHashProduto;
+
 typedef struct Cliente {
     int Id;
     char Nome[40];
     int Idade;
 
-    Produto *Produtos;//lista dinâmica de produtos desse cliente
+    NóHashProduto **tabelaProdutos;//hash table de produtos (específicos deste cliente)
+    int Tamanho_Tabela;
     int Total_Produtos;
-    int Capacidade_Produtos;
 
     int Tempo_Atendimento;
 } Cliente;
+
+typedef struct NóCliente {
+    Cliente dados;
+    struct NóCliente *esquerda;
+    struct NóCliente *direita;
+} NóCliente;
 
 typedef struct FilaCliente {
     Cliente *cliente;
@@ -43,6 +52,11 @@ typedef struct Empregado {
     int Id;
     char Nome[40];
 } Empregado;
+
+typedef struct NóEmpregado {
+    Empregado dados;
+    struct NóEmpregado *proximo;
+} NóEmpregado;
 
 typedef struct Caixa {
     int NumeroCaixa;
@@ -57,19 +71,13 @@ typedef struct Caixa {
 typedef struct Sistema {
     char Nome_Programa[40];
 
-    Cliente *Sis_clientes;//array dinâmico de clientes
+    NóCliente *Sis_clientes;//raiz da árvore binária de clientes
     int Num_Clientes;
-    int Capacidade_Clientes;
 
-    Empregado *Sis_Empregados;//array dinâmico de empregados
+    NóEmpregado *Sis_Empregados;//início da lista ligada de empregados
     int Num_Empregados;
-    int Capacidade_Empregados;
 
-    Produto *Sis_Produtos;//array dinâmico de produtos
-    int N_Produtos;
-    int Capacidade_Produtos;
-
-    Caixa *Sis_Caixas;//array de caixas (pode ser pequeno e fixo)
+    Caixa *Sis_Caixas;//array dinâmico de caixas
     int Num_Caixas;
 } Sistema;
 
