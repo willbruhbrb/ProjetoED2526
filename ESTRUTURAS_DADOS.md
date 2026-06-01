@@ -7,6 +7,21 @@ O projeto trabalha com grandes volumes de dados:
 - **Caixas**: 6 (número fixo)
 - **Produtos**: dinâmico (pode ser otimizado depois)
 
+## Módulos do Projeto
+- `main.c`: ponto de entrada do programa e menu principal.
+- `functions_main.c`: lógica principal do sistema, carregamento e gravação de arquivos, comandos do menu.
+- `functions_main.h`: assinatura das funções do sistema.
+- `arvore_clientes.c` / `arvore_clientes.h`: implementação da árvore binária de clientes, pesquisa, adição de clientes e gestão de produtos por cliente.
+- `hashtable.c` / `hashtable.h`: tabela hash de produtos por cliente e operações de inserção/pesquisa/impressão/liberação.
+- `lista_empregados.c` / `lista_empregados.h`: lista ligada de empregados e funções de adição/listagem de empregados.
+- `nos.c` / `nos.h`: criação de nós para clientes, empregados e produtos.
+- `structs.h`: definições de tipos centrais e estruturas de dados.
+- `ESTRUTURAS_DADOS.md`: documentação de design e justificativa de escolhas.
+
+## Notas de Organização
+- Comentários do código foram removidos para manter o código mais limpo.
+- Explicações importantes foram consolidadas neste ficheiro.
+
 ## Decisões de Design
 
 ### 1. Clientes → Árvore Binária de Pesquisa (ABP)

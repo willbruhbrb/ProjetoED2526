@@ -12,7 +12,7 @@
 #define PRECO_MIN_PRODUTO 0.01f
 #define PRECO_MAX_PRODUTO MAX_PRECO
 
-#define TAMANHO_TABELA_PRODUTOS 64//tamanho inicial da hash table de produtos por cliente
+#define TAMANHO_TABELA_PRODUTOS 64
 
 typedef struct Produto {
     int Id_Produto;
@@ -22,7 +22,7 @@ typedef struct Produto {
 
 typedef struct NóHashProduto {
     Produto dados;
-    struct NóHashProduto *proximo;//para encadeamento em caso de colisão
+    struct NóHashProduto *proximo;
 } NóHashProduto;
 
 typedef struct Cliente {
@@ -30,7 +30,7 @@ typedef struct Cliente {
     char Nome[40];
     int Idade;
 
-    NóHashProduto **tabelaProdutos;//hash table de produtos (específicos deste cliente)
+    NóHashProduto **tabelaProdutos;
     int Tamanho_Tabela;
     int Total_Produtos;
 
@@ -60,24 +60,21 @@ typedef struct NóEmpregado {
 
 typedef struct Caixa {
     int NumeroCaixa;
-    FilaCliente *inicio;//início da fila de clientes na caixa
-    FilaCliente *fim;//fim da fila
+    FilaCliente *inicio;
+    FilaCliente *fim;
     int Tamanho_Fila;
     int Tempo_Total_Fila;
     Empregado *Empregado_Caixa;
-    int Estado;//0=fechada, 1=aberta, 2=ocupada
+    int Estado;
 } Caixa;
 
 typedef struct Sistema {
-    char Nome_Programa[40];
-
-    NóCliente *Sis_clientes;//raiz da árvore binária de clientes
+    char Nome_Programa[50];
+    NóCliente *Raiz_Clientes;
     int Num_Clientes;
-
-    NóEmpregado *Sis_Empregados;//início da lista ligada de empregados
+    NóEmpregado *Sis_Empregados;
     int Num_Empregados;
-
-    Caixa *Sis_Caixas;//array dinâmico de caixas
+    Caixa *Sis_Caixas;
     int Num_Caixas;
 } Sistema;
 
